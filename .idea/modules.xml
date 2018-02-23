@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/common.iml" filepath="$PROJECT_DIR$/.idea/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../distributor/.idea/distributor.iml" filepath="$PROJECT_DIR$/../distributor/.idea/distributor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../history_storage/.idea/history_storage.iml" filepath="$PROJECT_DIR$/../history_storage/.idea/history_storage.iml" />
     </modules>
   </component>
 </project>

@@ -1,26 +1,47 @@
 
 CREATE DATABASE yeli_activity_history;
 CREATE USER yeli;
-GRANT ALL PRIVILEGES ON DATABASE yeli TO yeli_activity_history;
+GRANT ALL PRIVILEGES ON DATABASE yeli_activity_history TO yeli;
 \c yeli_activity_history
 
 CREATE TABLE tweets (
-    user_id interger,
-    tweet_id integer,
-    PRIMARY KEY(user_id, tweet_id)
+    tweet_id integer PRIMARY KEY,
+    user_id integer,
+    creation_time TIMESTAMP,
+    content text
 );
-CREATE UNIQUE INDEX tweets_gist_index ON tweets USING GIST (user_id, tweet_id);
 
 CREATE TABLE twitter_likes (
-    user_id interger,
-    tweet_id integer,
-    PRIMARY KEY(user_id, tweet_id)
+    tweet_id integer REFERENCES tweets (tweet_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    liker_id integer,
+    like_time TIMESTAMP,
+    PRIMARY KEY(liker_id, tweet_id)
 );
-CREATE UNIQUE INDEX twitter_likes_gist_index ON twitter_likes USING GIST (user_id, tweet_id);
+
+CREATE TABLE retweets (
+    tweet_id integer REFERENCES tweets (tweet_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    retweeter_id integer,
+    retweet_time TIMESTAMP,
+    PRIMARY KEY(retweeter_id, tweet_id)
+);
+
+CREATE TABLE twitter_images (
+    image_id text PRIMARY KEY,
+    format text,
+    data text,
+    tweet_id integer REFERENCES tweets (tweet_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 CREATE TABLE instagram_posts (
+    post_id integer PRIMARY KEY,
     username text,
-    id integer,
-    PRIMARY KEY(username, id)
+    creation_time TIMESTAMP,
+    content text
 );
-CREATE UNIQUE INDEX instagram_posts_gist_index ON instagram_posts USING GIST (username, id);
+
+CREATE TABLE instagram_images (
+    image_id text PRIMARY KEY,
+    format text,
+    data text,
+    post_id integer REFERENCES instagram_posts (post_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
